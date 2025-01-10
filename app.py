@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from flask import Flask, render_template, request, redirect, url_for, flash
 from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
@@ -9,10 +10,15 @@ from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.trace import SpanKind
 
+
+
 # Flask App Initialization
 app = Flask(__name__)
 app.secret_key = 'secret'
 COURSE_FILE = 'course_catalog.json'
+
+# Set Flask logger level
+app.logger.setLevel(logging.INFO)
 
 # OpenTelemetry Setup
 resource = Resource.create({"service.name": "course-catalog-service"})
@@ -38,10 +44,19 @@ def load_courses():
 
 def save_courses(data):
     """Save new course data to the JSON file."""
+    required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
+    missing_fields = [field for field in required_fields if field not in data or not data[field]]
+    
+    if missing_fields:
+        error_message = f"Missing required fields: {', '.join(missing_fields)}"
+        app.logger.error(error_message)
+        flash(error_message, "error")
+    
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
     with open(COURSE_FILE, 'w') as file:
         json.dump(courses, file, indent=4)
+    app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
 
 
 # Routes

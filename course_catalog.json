@@ -20,5 +20,38 @@
         "prerequisites": "Basic Python, Linux",
         "grading": "50% Assignment, 50% Quiz",
         "description": ""
+    },
+    {
+        "code": "kfk",
+        "name": "ee",
+        "instructor": "ee",
+        "semester": "",
+        "schedule": "ee",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "kfk",
+        "name": "ee",
+        "instructor": "ee",
+        "semester": "",
+        "schedule": "ee",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "d",
+        "name": "d",
+        "instructor": "",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
     }
 ]
