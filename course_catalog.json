@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
       {
             "code": "CS101",
             "name": "Introduction to Computer Science",
@@ -87,4 +88,83 @@
             "grading": "",
             "description": ""
       }
+=======
+    {
+        "code": "CS101",
+        "name": "Introduction to Computer Science",
+        "instructor": "Dr. Smith",
+        "semester": "Fall 2024",
+        "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
+        "classroom": "Room 101",
+        "prerequisites": "None",
+        "grading": "Midterm 30%, Final 50%, Homework 20%",
+        "description": "An introduction to the basics of computer science."
+    },
+    {
+        "code": "CS 203",
+        "name": "Software and Tools for AI",
+        "instructor": "Prof. Mayank Singh",
+        "semester": "Fall 2025",
+        "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
+        "classroom": "AB 7/109",
+        "prerequisites": "Basic Python, Linux",
+        "grading": "50% Assignment, 50% Quiz",
+        "description": ""
+    },
+    {
+        "code": "a",
+        "name": "a",
+        "instructor": "",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "ru",
+        "name": "ir",
+        "instructor": "",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "eme",
+        "name": "e",
+        "instructor": "ee",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "d",
+        "name": "dh",
+        "instructor": "",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    },
+    {
+        "code": "if",
+        "name": "f",
+        "instructor": "",
+        "semester": "",
+        "schedule": "",
+        "classroom": "",
+        "prerequisites": "",
+        "grading": "",
+        "description": ""
+    }
+>>>>>>> daff022bde2d412f4835f8baedaf830a679eec53
 ]

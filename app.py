@@ -6,8 +6,8 @@ from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.trace import SpanKind
 
 # Flask App Initialization
@@ -68,36 +68,61 @@ def index():
 
 @app.route('/catalog')
 def course_catalog():
-    courses = load_courses()
-    return render_template('course_catalog.html', courses=courses)
+    with tracer.start_as_current_span("course_catalog", kind=SpanKind.SERVER) as span:
+        span.set_attribute("http.method", request.method)
+        span.set_attribute("http.url", request.url)
+        span.set_attribute("http.client_ip", request.remote_addr)
+        span.add_event("Loading courses from file")
+        courses = load_courses()
+        span.set_attribute("course.count", len(courses))
+        span.add_event("Rendering course catalog template")
+        return render_template('course_catalog.html', courses=courses)
 
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
     if request.method == 'POST':
-        course = {
-            'code': request.form['code'],
-            'name': request.form['name'],
-            'instructor': request.form['instructor'],
-            'semester': request.form['semester'],
-            'schedule': request.form['schedule'],
-            'classroom': request.form['classroom'],
-            'prerequisites': request.form['prerequisites'],
-            'grading': request.form['grading'],
-            'description': request.form['description']
-        }
-        save_courses(course)
-        flash(f"Course '{course['name']}' added successfully!", "success")
-        return redirect(url_for('course_catalog'))
+        with tracer.start_as_current_span("add_course", kind=SpanKind.SERVER) as span:
+            span.set_attribute("http.method", request.method)
+            span.set_attribute("http.url", request.url)
+            span.set_attribute("http.client_ip", request.remote_addr)
+            span.add_event("Extracting course data from form")
+            course = {
+                'code': request.form['code'],
+                'name': request.form['name'],
+                'instructor': request.form['instructor'],
+                'semester': request.form['semester'],
+                'schedule': request.form['schedule'],
+                'classroom': request.form['classroom'],
+                'prerequisites': request.form['prerequisites'],
+                'grading': request.form['grading'],
+                'description': request.form['description']
+            }
+            span.set_attribute("course.code", course['code'])
+            span.set_attribute("course.name", course['name'])
+            span.add_event("Saving course data to file")
+            save_courses(course)
+            flash(f"Course '{course['name']}' added successfully!", "success")
+            return redirect(url_for('course_catalog'))
     return render_template('add_course.html')
 
 @app.route('/course/<code>')
 def course_details(code):
-    courses = load_courses()
-    course = next((course for course in courses if course['code'] == code), None)
-    if not course:
-        flash(f"No course found with code '{code}'.", "error")
-        return redirect(url_for('course_catalog'))
-    return render_template('course_details.html', course=course)
+    with tracer.start_as_current_span("course_details", kind=SpanKind.SERVER) as span:
+        span.set_attribute("http.method", request.method)
+        span.set_attribute("http.url", request.url)
+        span.set_attribute("http.client_ip", request.remote_addr)
+        span.add_event("Loading courses from file")
+        courses = load_courses()
+        span.set_attribute("course.count", len(courses))
+        span.add_event(f"Searching for course with code {code}")
+        course = next((course for course in courses if course['code'] == code), None)
+        if not course:
+            flash(f"No course found with code '{code}'.", "error")
+            return redirect(url_for('course_catalog'))
+        span.set_attribute("course.code", course['code'])
+        span.set_attribute("course.name", course['name'])
+        span.add_event("Rendering course details template")
+        return render_template('course_details.html', course=course)
 
 @app.route("/manual-trace")
 def manual_trace():
@@ -105,6 +130,7 @@ def manual_trace():
     with tracer.start_as_current_span("manual-span", kind=SpanKind.SERVER) as span:
         span.set_attribute("http.method", request.method)
         span.set_attribute("http.url", request.url)
+        span.set_attribute("http.client_ip", request.remote_addr)
         span.add_event("Processing request")
         return "Manual trace recorded!", 200
 
