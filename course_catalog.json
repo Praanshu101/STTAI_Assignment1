@@ -1,57 +1,90 @@
 [
-    {
-        "code": "CS101",
-        "name": "Introduction to Computer Science",
-        "instructor": "Dr. Smith",
-        "semester": "Fall 2024",
-        "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
-        "classroom": "Room 101",
-        "prerequisites": "None",
-        "grading": "Midterm 30%, Final 50%, Homework 20%",
-        "description": "An introduction to the basics of computer science."
-    },
-    {
-        "code": "CS 203",
-        "name": "Software and Tools for AI",
-        "instructor": "Prof. Mayank Singh",
-        "semester": "Fall 2025",
-        "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
-        "classroom": "AB 7/109",
-        "prerequisites": "Basic Python, Linux",
-        "grading": "50% Assignment, 50% Quiz",
-        "description": ""
-    },
-    {
-        "code": "kfk",
-        "name": "ee",
-        "instructor": "ee",
-        "semester": "",
-        "schedule": "ee",
-        "classroom": "",
-        "prerequisites": "",
-        "grading": "",
-        "description": ""
-    },
-    {
-        "code": "kfk",
-        "name": "ee",
-        "instructor": "ee",
-        "semester": "",
-        "schedule": "ee",
-        "classroom": "",
-        "prerequisites": "",
-        "grading": "",
-        "description": ""
-    },
-    {
-        "code": "d",
-        "name": "d",
-        "instructor": "",
-        "semester": "",
-        "schedule": "",
-        "classroom": "",
-        "prerequisites": "",
-        "grading": "",
-        "description": ""
-    }
+      {
+            "code": "CS101",
+            "name": "Introduction to Computer Science",
+            "instructor": "Dr. Smith",
+            "semester": "Fall 2024",
+            "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
+            "classroom": "Room 101",
+            "prerequisites": "None",
+            "grading": "Midterm 30%, Final 50%, Homework 20%",
+            "description": "An introduction to the basics of computer science."
+      },
+      {
+            "code": "CS 203",
+            "name": "Software and Tools for AI",
+            "instructor": "Prof. Mayank Singh",
+            "semester": "Fall 2025",
+            "schedule": "Mon, Wed, Fri 10:00-11:00 AM",
+            "classroom": "AB 7/109",
+            "prerequisites": "Basic Python, Linux",
+            "grading": "50% Assignment, 50% Quiz",
+            "description": ""
+      },
+      {
+            "code": "kfk",
+            "name": "ee",
+            "instructor": "ee",
+            "semester": "",
+            "schedule": "ee",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "kfk",
+            "name": "ee",
+            "instructor": "ee",
+            "semester": "",
+            "schedule": "ee",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "d",
+            "name": "d",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "ES 11111",
+            "name": "Course for Courses",
+            "instructor": "ABCD",
+            "semester": "19",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "A 111",
+            "name": "Course",
+            "instructor": "hi",
+            "semester": "5",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "None",
+            "description": ""
+      },
+      {
+            "code": "A 111",
+            "name": "Course",
+            "instructor": "hi",
+            "semester": "",
+            "schedule": "no",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      }
 ]

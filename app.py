@@ -10,8 +10,6 @@ from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.trace import SpanKind
 
-
-
 # Flask App Initialization
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -19,6 +17,13 @@ COURSE_FILE = 'course_catalog.json'
 
 # Set Flask logger level
 app.logger.setLevel(logging.INFO)
+
+# Configure logging to export to a .json file
+log_handler = logging.FileHandler('app_logs.json')
+log_handler.setLevel(logging.INFO)
+log_formatter = logging.Formatter('{"time": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s"}')
+log_handler.setFormatter(log_formatter)
+app.logger.addHandler(log_handler)
 
 # OpenTelemetry Setup
 resource = Resource.create({"service.name": "course-catalog-service"})
@@ -32,7 +37,6 @@ span_processor = BatchSpanProcessor(jaeger_exporter)
 trace.get_tracer_provider().add_span_processor(span_processor)
 FlaskInstrumentor().instrument_app(app)
 
-
 # Utility Functions
 def load_courses():
     """Load courses from the JSON file."""
@@ -40,7 +44,6 @@ def load_courses():
         return []  # Return an empty list if the file doesn't exist
     with open(COURSE_FILE, 'r') as file:
         return json.load(file)
-
 
 def save_courses(data):
     """Save new course data to the JSON file."""
@@ -55,21 +58,18 @@ def save_courses(data):
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
     with open(COURSE_FILE, 'w') as file:
-        json.dump(courses, file, indent=4)
+        json.dump(courses, file, indent=6)
     app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
-
 
 # Routes
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/catalog')
 def course_catalog():
     courses = load_courses()
     return render_template('course_catalog.html', courses=courses)
-
 
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
@@ -90,7 +90,6 @@ def add_course():
         return redirect(url_for('course_catalog'))
     return render_template('add_course.html')
 
-
 @app.route('/course/<code>')
 def course_details(code):
     courses = load_courses()
@@ -99,7 +98,6 @@ def course_details(code):
         flash(f"No course found with code '{code}'.", "error")
         return redirect(url_for('course_catalog'))
     return render_template('course_details.html', course=course)
-
 
 @app.route("/manual-trace")
 def manual_trace():
@@ -110,12 +108,10 @@ def manual_trace():
         span.add_event("Processing request")
         return "Manual trace recorded!", 200
 
-
 @app.route("/auto-instrumented")
 def auto_instrumented():
     # Automatically instrumented via FlaskInstrumentor
     return "This route is auto-instrumented!", 200
-
 
 if __name__ == '__main__':
     app.run(debug=True)

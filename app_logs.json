@@ -1,0 +1,2 @@
+{"time": "2025-01-12 19:00:20,519", "level": "ERROR", "message": "Missing required fields: semester, classroom, prerequisites, grading, description"}
+{"time": "2025-01-12 19:00:20,527", "level": "INFO", "message": "Course 'Course' added with code 'A 111'"}
