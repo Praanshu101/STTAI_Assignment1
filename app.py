@@ -14,20 +14,30 @@ from opentelemetry.trace import SpanKind
 app = Flask(__name__)
 app.secret_key = 'secret'
 COURSE_FILE = 'course_catalog.json'
-
+error_count=0
 # Set Flask logger level
 app.logger.setLevel(logging.INFO)
 
 # Configure logging to export to a .json file
+class JsonArrayFormatter(logging.Formatter):
+    def __init__(self):
+        super().__init__()
+        self.logs = []
+
+    def format(self, record):
+        log_entry = {
+            "time": self.formatTime(record),
+            "level": record.levelname,
+            "message": record.getMessage()
+        }
+        self.logs.append(log_entry)
+        with open('app_logs.json', 'w') as f:
+            f.write("")
+        return json.dumps(self.logs, indent=4)
+
 log_handler = logging.FileHandler('app_logs.json')
 log_handler.setLevel(logging.INFO)
-log_formatter = logging.Formatter(
-    json.dumps({
-        "time": "%(asctime)s",
-        "level": "%(levelname)s",
-        "message": "%(message)s"
-    },indent=4)
-)
+log_formatter = JsonArrayFormatter()
 log_handler.setFormatter(log_formatter)
 app.logger.addHandler(log_handler)
 
@@ -52,6 +62,7 @@ def load_courses():
         return json.load(file)
 
 def save_courses(data):
+    global error_count
     """Save new course data to the JSON file."""
     required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
     missing_fields = [field for field in required_fields if field not in data or not data[field]]
@@ -60,11 +71,11 @@ def save_courses(data):
         error_message = f"Missing required fields: {', '.join(missing_fields)}"
         app.logger.error(error_message)
         flash(error_message, "error")
+        error_count+=1
         with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
             span.set_attribute("error.type", "MissingFields")
-            span.set_attribute("error.count", 1)  # Count as one error
+            span.set_attribute("error.count", error_count)  # Count as one error
             span.add_event(error_message)
-        return
     
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
@@ -73,10 +84,11 @@ def save_courses(data):
             json.dump(courses, file, indent=6)
         app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
     except Exception as e:
+        error_count+=1
         app.logger.error(f"Error saving course data: {str(e)}")
         with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
             span.set_attribute("error.type", "FileWriteError")
-            span.set_attribute("error.count", 1)
+            span.set_attribute("error.count", error_count)
             span.add_event(f"Error saving course data: {str(e)}")
 
 # Routes
