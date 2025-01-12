@@ -21,7 +21,13 @@ app.logger.setLevel(logging.INFO)
 # Configure logging to export to a .json file
 log_handler = logging.FileHandler('app_logs.json')
 log_handler.setLevel(logging.INFO)
-log_formatter = logging.Formatter('{"time": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s"}')
+log_formatter = logging.Formatter(
+    json.dumps({
+        "time": "%(asctime)s",
+        "level": "%(levelname)s",
+        "message": "%(message)s"
+    },indent=4)
+)
 log_handler.setFormatter(log_formatter)
 app.logger.addHandler(log_handler)
 
@@ -54,12 +60,24 @@ def save_courses(data):
         error_message = f"Missing required fields: {', '.join(missing_fields)}"
         app.logger.error(error_message)
         flash(error_message, "error")
+        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            span.set_attribute("error.type", "MissingFields")
+            span.set_attribute("error.count", 1)  # Count as one error
+            span.add_event(error_message)
+        return
     
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
-    with open(COURSE_FILE, 'w') as file:
-        json.dump(courses, file, indent=6)
-    app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
+    try:
+        with open(COURSE_FILE, 'w') as file:
+            json.dump(courses, file, indent=6)
+        app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
+    except Exception as e:
+        app.logger.error(f"Error saving course data: {str(e)}")
+        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            span.set_attribute("error.type", "FileWriteError")
+            span.set_attribute("error.count", 1)
+            span.add_event(f"Error saving course data: {str(e)}")
 
 # Routes
 @app.route('/')

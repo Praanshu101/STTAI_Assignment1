@@ -1,2 +1,50 @@
-{"time": "2025-01-12 19:00:20,519", "level": "ERROR", "message": "Missing required fields: semester, classroom, prerequisites, grading, description"}
-{"time": "2025-01-12 19:00:20,527", "level": "INFO", "message": "Course 'Course' added with code 'A 111'"}
+{
+    "time": "2025-01-12 22:38:50,668",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:38:50,670",
+    "level": "INFO",
+    "message": "Course 'a' added with code 'a'"
+}
+{
+    "time": "2025-01-12 22:44:14,700",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:46:23,058",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:46:42,277",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:47:39,748",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:48:20,368",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:48:38,503",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-12 22:48:38,505",
+    "level": "INFO",
+    "message": "Course 'd' added with code 'd'"
+}
+{
+    "time": "2025-01-12 22:50:22,737",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
