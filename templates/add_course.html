@@ -4,31 +4,102 @@
     {% block content %}
 <head>
     <title>Add Course</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 70%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            color: #555;
+        }
+        input, textarea {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            margin-top: 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add a New Course</h1>
-    <form method="post">
-        <label for="code">Course Code:</label><br>
-        <input type="text" id="code" name="code" required><br>
-        <label for="name">Course Name:</label><br>
-        <input type="text" id="name" name="name" required><br>
-        <label for="instructor">Instructor:</label><br>
-        <input type="text" id="instructor" name="instructor"><br>
-        <label for="semester">Semester:</label><br>
-        <input type="text" id="semester" name="semester"><br>
-        <label for="schedule">Schedule:</label><br>
-        <input type="text" id="schedule" name="schedule"><br>
-        <label for="classroom">Classroom:</label><br>
-        <input type="text" id="classroom" name="classroom"><br>
-        <label for="prerequisites">Prerequisites:</label><br>
-        <input type="text" id="prerequisites" name="prerequisites"><br>
-        <label for="grading">Grading:</label><br>
-        <input type="text" id="grading" name="grading"><br>
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="4"></textarea><br><br>
-        <input type="submit" value="Add Course">
-    </form>
-    <a href="{{ url_for('index') }}">Back to Home</a>
+    <div class="container">
+        <h1>Add a New Course</h1>
+        <form method="post">
+            <label for="code">Course Code:</label>
+            <input type="text" id="code" name="code" required>
+            
+            <label for="name">Course Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="instructor">Instructor:</label>
+            <input type="text" id="instructor" name="instructor">
+            
+            <label for="semester">Semester:</label>
+            <input type="text" id="semester" name="semester">
+            
+            <label for="schedule">Schedule:</label>
+            <input type="text" id="schedule" name="schedule">
+            
+            <label for="classroom">Classroom:</label>
+            <input type="text" id="classroom" name="classroom">
+            
+            <label for="prerequisites">Prerequisites:</label>
+            <input type="text" id="prerequisites" name="prerequisites">
+            
+            <label for="grading">Grading:</label>
+            <input type="text" id="grading" name="grading">
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+            
+            <input type="submit" value="Add Course">
+        </form>
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">Back to Home</a>
+        </div>
+    </div>
 </body>
 {% endblock %}
 </html>

@@ -1,22 +1,12 @@
 [
     {
-        "time": "2025-01-12 23:34:20,687",
+        "time": "2025-01-13 16:09:21,134",
         "level": "ERROR",
         "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
     },
     {
-        "time": "2025-01-12 23:34:20,688",
+        "time": "2025-01-13 16:09:21,137",
         "level": "INFO",
-        "message": "Course 'asd' added with code 'asd'"
-    },
-    {
-        "time": "2025-01-12 23:34:27,406",
-        "level": "ERROR",
-        "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
-    },
-    {
-        "time": "2025-01-12 23:34:27,408",
-        "level": "INFO",
-        "message": "Course 'asd' added with code 'ads'"
+        "message": "Course 'xd' added with code 'g'"
     }
 ]

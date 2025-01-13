@@ -66,7 +66,7 @@ def load_courses():
         return json.load(file)
 
 def save_courses(data):
-    global error_count
+    global error_count # Keeping count of the total error in the during whole running of the website
     """Save new course data to the JSON file."""
     required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
     missing_fields = [field for field in required_fields if field not in data or not data[field]] # Check for missing fields
@@ -81,7 +81,7 @@ def save_courses(data):
         with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
             # Adding error attributes to the span
             span.set_attribute("error.type", "MissingFields")
-            span.set_attribute("error.count", error_count)  # Count as one error
+            span.set_attribute("error.count", error_count) 
             span.add_event(error_message)
     
     courses = load_courses()  # Load existing courses
