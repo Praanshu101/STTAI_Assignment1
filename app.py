@@ -12,10 +12,11 @@ from opentelemetry.trace import SpanKind
 
 # Flask App Initialization
 app = Flask(__name__)
-app.secret_key = 'secret'
-COURSE_FILE = 'course_catalog.json'
-error_count=0
-# Set Flask logger level
+app.secret_key = 'secret' # Required for flashing messages
+COURSE_FILE = 'course_catalog.json' # JSON file to store course data
+error_count=0 # Count of number of errors
+
+# Setting logging level
 app.logger.setLevel(logging.INFO)
 
 # Configure logging to export to a .json file
@@ -25,6 +26,7 @@ class JsonArrayFormatter(logging.Formatter):
         self.logs = []
 
     def format(self, record):
+        # Formatting log record in JSON format
         log_entry = {
             "time": self.formatTime(record),
             "level": record.levelname,
@@ -35,6 +37,7 @@ class JsonArrayFormatter(logging.Formatter):
             f.write("")
         return json.dumps(self.logs, indent=4)
 
+# Adding file handler to the logger
 log_handler = logging.FileHandler('app_logs.json')
 log_handler.setLevel(logging.INFO)
 log_formatter = JsonArrayFormatter()
@@ -45,6 +48,7 @@ app.logger.addHandler(log_handler)
 resource = Resource.create({"service.name": "course-catalog-service"})
 trace.set_tracer_provider(TracerProvider(resource=resource))
 tracer = trace.get_tracer(__name__)
+# Jaeger Exporter
 jaeger_exporter = JaegerExporter(
     agent_host_name="localhost",
     agent_port=6831,
@@ -65,14 +69,17 @@ def save_courses(data):
     global error_count
     """Save new course data to the JSON file."""
     required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
-    missing_fields = [field for field in required_fields if field not in data or not data[field]]
+    missing_fields = [field for field in required_fields if field not in data or not data[field]] # Check for missing fields
     
     if missing_fields:
+        # Logging the error message and incrementing the error count
         error_message = f"Missing required fields: {', '.join(missing_fields)}"
         app.logger.error(error_message)
         flash(error_message, "error")
+
         error_count+=1
         with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            # Adding error attributes to the span
             span.set_attribute("error.type", "MissingFields")
             span.set_attribute("error.count", error_count)  # Count as one error
             span.add_event(error_message)
@@ -80,25 +87,29 @@ def save_courses(data):
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
     try:
+        # Save the updated course list to the file
         with open(COURSE_FILE, 'w') as file:
             json.dump(courses, file, indent=6)
         app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
     except Exception as e:
+        # Logging the error message and incrementing the error count
         error_count+=1
         app.logger.error(f"Error saving course data: {str(e)}")
         with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            # Adding error attributes to the span (error type, error count) and logging the error message
             span.set_attribute("error.type", "FileWriteError")
             span.set_attribute("error.count", error_count)
             span.add_event(f"Error saving course data: {str(e)}")
 
 # Routes
-@app.route('/')
+@app.route('/') # Home Page
 def index():
     return render_template('index.html')
 
-@app.route('/catalog')
+@app.route('/catalog') # Course Catalog
 def course_catalog():
     with tracer.start_as_current_span("course_catalog", kind=SpanKind.SERVER) as span:
+        # Adding attributes to the span (HTTP method, URL, client IP) and logging the event "Loading courses from file"
         span.set_attribute("http.method", request.method)
         span.set_attribute("http.url", request.url)
         span.set_attribute("http.client_ip", request.remote_addr)
@@ -108,10 +119,11 @@ def course_catalog():
         span.add_event("Rendering course catalog template")
         return render_template('course_catalog.html', courses=courses)
 
-@app.route('/add_course', methods=['GET', 'POST'])
+@app.route('/add_course', methods=['GET', 'POST']) # Add Course
 def add_course():
     if request.method == 'POST':
         with tracer.start_as_current_span("add_course", kind=SpanKind.SERVER) as span:
+            # Adding attributes to the span (HTTP method, URL, client IP) and events (extracting course data from form, saving course data to file)
             span.set_attribute("http.method", request.method)
             span.set_attribute("http.url", request.url)
             span.set_attribute("http.client_ip", request.remote_addr)
@@ -135,9 +147,10 @@ def add_course():
             return redirect(url_for('course_catalog'))
     return render_template('add_course.html')
 
-@app.route('/course/<code>')
+@app.route('/course/<code>') # Course Details
 def course_details(code):
     with tracer.start_as_current_span("course_details", kind=SpanKind.SERVER) as span:
+        # Adding attributes to the span (HTTP method, URL, client IP) and events (loading courses from file, searching for course with code)
         span.set_attribute("http.method", request.method)
         span.set_attribute("http.url", request.url)
         span.set_attribute("http.client_ip", request.remote_addr)
@@ -154,7 +167,7 @@ def course_details(code):
         span.add_event("Rendering course details template")
         return render_template('course_details.html', course=course)
 
-@app.route("/manual-trace")
+@app.route("/manual-trace") # Manual Trace
 def manual_trace():
     # Start a span manually for custom tracing
     with tracer.start_as_current_span("manual-span", kind=SpanKind.SERVER) as span:
@@ -164,10 +177,11 @@ def manual_trace():
         span.add_event("Processing request")
         return "Manual trace recorded!", 200
 
-@app.route("/auto-instrumented")
+@app.route("/auto-instrumented") # Auto-Instrumented Route
 def auto_instrumented():
     # Automatically instrumented via FlaskInstrumentor
     return "This route is auto-instrumented!", 200
 
+# Error Handler for 404
 if __name__ == '__main__':
     app.run(debug=True)
