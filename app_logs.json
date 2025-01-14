@@ -100,3 +100,73 @@
     "level": "INFO",
     "message": "Course catalog page rendered successfully"
 }
+{
+    "time": "2025-01-14 21:37:24,609",
+    "level": "INFO",
+    "message": "Course '' added with code 'd'"
+}
+{
+    "time": "2025-01-14 21:37:24,610",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:37:29,992",
+    "level": "INFO",
+    "message": "User IP: 127.0.0.1"
+}
+{
+    "time": "2025-01-14 21:37:31,209",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:37:35,063",
+    "level": "INFO",
+    "message": "Course 's' added with code 'd'"
+}
+{
+    "time": "2025-01-14 21:37:35,068",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:37:38,430",
+    "level": "INFO",
+    "message": "Course '' added with code 'a'"
+}
+{
+    "time": "2025-01-14 21:37:38,431",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:38:29,276",
+    "level": "INFO",
+    "message": "Course '' added with code 'a'"
+}
+{
+    "time": "2025-01-14 21:38:29,276",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:38:29,288",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:38:32,295",
+    "level": "INFO",
+    "message": "Course '' added with code 's'"
+}
+{
+    "time": "2025-01-14 21:38:32,296",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:38:32,302",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}

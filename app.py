@@ -63,7 +63,7 @@ def save_courses(data):
     """Save new course data to the JSON file."""
     required_fields = ['code', 'name']
     missing_fields = [field for field in required_fields if field not in data or not data[field]] # Check for missing fields
-    
+    global error_count
 
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
