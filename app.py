@@ -47,6 +47,9 @@ FlaskInstrumentor().instrument_app(app)
 # Initialize catalog access count
 catalog_access_count = 0
 
+# Initialize set to track logged IPs
+logged_ips = set()
+
 # Utility Functions
 def load_courses():
     """Load courses from the JSON file."""
@@ -57,35 +60,61 @@ def load_courses():
 
 def save_courses(data):
     """Save new course data to the JSON file."""
-    required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
-    missing_fields = [field for field in required_fields if field not in data or not data[field]]
+    required_fields = ['code', 'name']
+    missing_fields = [field for field in required_fields if field not in data or not data[field]] # Check for missing fields
     
+
+    courses = load_courses()  # Load existing courses
+    courses.append(data)  # Append the new course
+    try:
+        # Save the updated course list to the file
+        with open(COURSE_FILE, 'w') as file:
+            json.dump(courses, file, indent=6)
+        app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
+    except Exception as e:
+        # Logging the error message and incrementing the error count
+        error_count+=1
+        app.logger.error(f"Error saving course data: {str(e)}")
+        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            # Adding error attributes to the span (error type, error count) and logging the error message
+            span.set_attribute("error.type", "FileWriteError")
+            span.set_attribute("error.count", error_count)
+            span.add_event(f"Error saving course data: {str(e)}")
     if missing_fields:
+        # Logging the error message and incrementing the error count
         error_message = f"Missing required fields: {', '.join(missing_fields)}"
         app.logger.error(error_message)
         flash(error_message, "error")
-    
-    courses = load_courses()  # Load existing courses
-    courses.append(data)  # Append the new course
-    with open(COURSE_FILE, 'w') as file:
-        json.dump(courses, file, indent=6)
-    app.logger.info(f"Course '{data['name']}' added with code '{data['code']}'")
+
+        error_count+=1
+        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            # Adding error attributes to the span
+            span.set_attribute("error.type", "MissingFields")
+            span.set_attribute("error.count", error_count) 
+            span.add_event(error_message)
+        return  # Exit the function if there are missing fields
+    flash(f"Course '{data['name']}' added successfully!", "success")
 
 # Routes
 @app.route('/')
 def index():
     user_ip = request.remote_addr
-    app.logger.info(f"User logged in with IP address: {user_ip}")
-    return render_template('index.html')
+    if (user_ip not in logged_ips):
+        app.logger.info(f"User IP: {user_ip}")
+        logged_ips.add(user_ip)
+    with tracer.start_as_current_span("index", kind=SpanKind.SERVER) as span:
+        span.set_attribute("http.client_ip", user_ip)
+        return render_template('index.html')
 
 @app.route('/catalog')
 def course_catalog():
     global catalog_access_count
     catalog_access_count += 1
+
     with tracer.start_as_current_span("course_catalog", kind=SpanKind.SERVER) as span:
         span.set_attribute("http.method", request.method)
         span.set_attribute("http.url", request.url)
-        span.set_attribute("http.client_ip", request.remote_addr)
+        
         span.set_attribute("catalog.access_count", catalog_access_count)
         span.add_event("Loading courses from file")
         courses = load_courses()
@@ -117,7 +146,7 @@ def add_course():
             span.set_attribute("course.name", course['name'])
             span.add_event("Saving course data to file")
             save_courses(course)
-            flash(f"Course '{course['name']}' added successfully!", "success")
+            
             return redirect(url_for('course_catalog'))
     return render_template('add_course.html')
 

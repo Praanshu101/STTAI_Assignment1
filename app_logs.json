@@ -1,13 +1,43 @@
 [
     {
-        "time": "2025-01-13 21:45:03,028",
-        "level": "ERROR",
-        "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+        "time": "2025-01-14 18:35:48,365",
+        "level": "INFO",
+        "message": "Course 's' added with code 'a'"
     },
     {
-        "time": "2025-01-13 21:45:03,029",
+        "time": "2025-01-14 18:35:48,371",
         "level": "INFO",
-        "message": "Course 'd' added with code 'aa'"
+        "message": "Course catalog page rendered successfully"
+    },
+    {
+        "time": "2025-01-14 18:36:18,542",
+        "level": "INFO",
+        "message": "Course '' added with code 's'"
+    },
+    {
+        "time": "2025-01-14 18:36:18,543",
+        "level": "ERROR",
+        "message": "Missing required fields: name"
+    },
+    {
+        "time": "2025-01-14 18:36:18,556",
+        "level": "INFO",
+        "message": "Course catalog page rendered successfully"
+    },
+    {
+        "time": "2025-01-14 18:36:39,149",
+        "level": "INFO",
+        "message": "Course '' added with code 'd'"
+    },
+    {
+        "time": "2025-01-14 18:36:39,150",
+        "level": "ERROR",
+        "message": "Missing required fields: name"
+    },
+    {
+        "time": "2025-01-14 18:36:39,154",
+        "level": "INFO",
+        "message": "Course catalog page rendered successfully"
     }
 ]
 {
