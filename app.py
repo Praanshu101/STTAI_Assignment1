@@ -102,11 +102,11 @@ def save_courses(data):
 # Routes
 @app.route('/') # Home route 
 def index():
-    user_ip = request.remote_addr
-    if (user_ip not in logged_ips):
+    user_ip = request.remote_addr  # Getting the user's IP address
+    if (user_ip not in logged_ips): # Logging the user's IP address if not already logged
         app.logger.info(f"User IP: {user_ip}")
         logged_ips.add(user_ip)
-    with tracer.start_as_current_span("index", kind=SpanKind.SERVER) as span:
+    with tracer.start_as_current_span("index", kind=SpanKind.SERVER) as span: # Starting a span for the index route
         span.set_attribute("http.client_ip", user_ip)
         return render_template('index.html')
 
@@ -137,6 +137,7 @@ def add_course():
             span.set_attribute("http.url", request.url)
             span.set_attribute("http.client_ip", request.remote_addr)
             span.add_event("Extracting course data from form")
+            # Course data format
             course = {
                 'code': request.form['code'],
                 'name': request.form['name'],
