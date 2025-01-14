@@ -69,7 +69,8 @@ def save_courses(data):
     global error_count # Accessing the global error count variable
 
     courses = load_courses()  # Load existing courses
-    courses.append(data)  # Append the new course
+    if not missing_fields:
+        courses.append(data)  # Append the new course if it doesn't already exist
     try:
         # Save the updated course list to the file
         with open(COURSE_FILE, 'w') as file:
