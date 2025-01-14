@@ -57,6 +57,12 @@ span_processor = BatchSpanProcessor(jaeger_exporter)
 trace.get_tracer_provider().add_span_processor(span_processor)
 FlaskInstrumentor().instrument_app(app)
 
+# Initialize catalog access count
+catalog_access_count = 0
+
+# Initialize set to track logged IPs
+logged_ips = set()
+
 # Utility Functions
 def load_courses():
     """Load courses from the JSON file."""
@@ -104,19 +110,29 @@ def save_courses(data):
 # Routes
 @app.route('/') # Home Page
 def index():
-    return render_template('index.html')
+    user_ip = request.remote_addr
+    if (user_ip not in logged_ips):
+        app.logger.info(f"User IP: {user_ip}")
+        logged_ips.add(user_ip)
+    with tracer.start_as_current_span("index", kind=SpanKind.SERVER) as span:
+        span.set_attribute("http.client_ip", user_ip)
+        return render_template('index.html')
 
 @app.route('/catalog') # Course Catalog
 def course_catalog():
+    global catalog_access_count
+    catalog_access_count += 1
+
     with tracer.start_as_current_span("course_catalog", kind=SpanKind.SERVER) as span:
-        # Adding attributes to the span (HTTP method, URL, client IP) and logging the event "Loading courses from file"
         span.set_attribute("http.method", request.method)
         span.set_attribute("http.url", request.url)
-        span.set_attribute("http.client_ip", request.remote_addr)
+        
+        span.set_attribute("catalog.access_count", catalog_access_count)
         span.add_event("Loading courses from file")
         courses = load_courses()
         span.set_attribute("course.count", len(courses))
         span.add_event("Rendering course catalog template")
+        app.logger.info("Course catalog page rendered successfully")
         return render_template('course_catalog.html', courses=courses)
 
 @app.route('/add_course', methods=['GET', 'POST']) # Add Course

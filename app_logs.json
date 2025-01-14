@@ -1,12 +1,7 @@
 [
     {
-        "time": "2025-01-13 16:09:21,134",
-        "level": "ERROR",
-        "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
-    },
-    {
-        "time": "2025-01-13 16:09:21,137",
+        "time": "2025-01-14 18:14:04,035",
         "level": "INFO",
-        "message": "Course 'xd' added with code 'g'"
+        "message": "User IP: 127.0.0.1"
     }
 ]
