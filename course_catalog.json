@@ -20,5 +20,27 @@
             "prerequisites": "Basic Python, Linux",
             "grading": "50% Assignment, 50% Quiz",
             "description": ""
+      },
+      {
+            "code": "d",
+            "name": "",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "d",
+            "name": "d",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
       }
 ]
