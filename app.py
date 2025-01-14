@@ -13,8 +13,9 @@ from opentelemetry.trace import SpanKind
 
 # Flask App Initialization
 app = Flask(__name__)
-app.secret_key = 'secret'
-COURSE_FILE = 'course_catalog.json'
+app.secret_key = 'secret' # Required for flashing messages
+COURSE_FILE = 'course_catalog.json' # JSON file to store course data
+error_count=0 # Count of number of errors.
 
 # Set Flask logger level
 app.logger.setLevel(logging.INFO)
