@@ -74,22 +74,10 @@ def load_courses():
 def save_courses(data):
     global error_count # Keeping count of the total error in the during whole running of the website
     """Save new course data to the JSON file."""
-    required_fields = ['code', 'name', 'instructor', 'semester', 'schedule', 'classroom', 'prerequisites', 'grading', 'description']
+    required_fields = ['code', 'name']
     missing_fields = [field for field in required_fields if field not in data or not data[field]] # Check for missing fields
     
-    if missing_fields:
-        # Logging the error message and incrementing the error count
-        error_message = f"Missing required fields: {', '.join(missing_fields)}"
-        app.logger.error(error_message)
-        flash(error_message, "error")
 
-        error_count+=1
-        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
-            # Adding error attributes to the span
-            span.set_attribute("error.type", "MissingFields")
-            span.set_attribute("error.count", error_count) 
-            span.add_event(error_message)
-    
     courses = load_courses()  # Load existing courses
     courses.append(data)  # Append the new course
     try:
@@ -106,6 +94,20 @@ def save_courses(data):
             span.set_attribute("error.type", "FileWriteError")
             span.set_attribute("error.count", error_count)
             span.add_event(f"Error saving course data: {str(e)}")
+    if missing_fields:
+        # Logging the error message and incrementing the error count
+        error_message = f"Missing required fields: {', '.join(missing_fields)}"
+        app.logger.error(error_message)
+        flash(error_message, "error")
+
+        error_count+=1
+        with tracer.start_as_current_span("save_courses_error", kind=SpanKind.INTERNAL) as span:
+            # Adding error attributes to the span
+            span.set_attribute("error.type", "MissingFields")
+            span.set_attribute("error.count", error_count) 
+            span.add_event(error_message)
+        return  # Exit the function if there are missing fields
+    flash(f"Course '{data['name']}' added successfully!", "success")
 
 # Routes
 @app.route('/') # Home Page
@@ -159,7 +161,7 @@ def add_course():
             span.set_attribute("course.name", course['name'])
             span.add_event("Saving course data to file")
             save_courses(course)
-            flash(f"Course '{course['name']}' added successfully!", "success")
+            
             return redirect(url_for('course_catalog'))
     return render_template('add_course.html')
 
