@@ -152,5 +152,38 @@
             "prerequisites": "",
             "grading": "",
             "description": ""
+      },
+      {
+            "code": "aa",
+            "name": "d",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "q",
+            "name": "s",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
+      },
+      {
+            "code": "a",
+            "name": "a",
+            "instructor": "",
+            "semester": "",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "",
+            "grading": "",
+            "description": ""
       }
 ]

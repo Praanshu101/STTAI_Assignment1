@@ -74,6 +74,8 @@ def save_courses(data):
 # Routes
 @app.route('/')
 def index():
+    user_ip = request.remote_addr
+    app.logger.info(f"User logged in with IP address: {user_ip}")
     return render_template('index.html')
 
 @app.route('/catalog')

@@ -1,12 +1,72 @@
 [
     {
-        "time": "2025-01-13 16:09:21,134",
+        "time": "2025-01-13 21:45:03,028",
         "level": "ERROR",
         "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
     },
     {
-        "time": "2025-01-13 16:09:21,137",
+        "time": "2025-01-13 21:45:03,029",
         "level": "INFO",
-        "message": "Course 'xd' added with code 'g'"
+        "message": "Course 'd' added with code 'aa'"
     }
 ]
+{
+    "time": "2025-01-14 17:49:07,795",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:49:10,130",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:49:25,882",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:53:58,780",
+    "level": "INFO",
+    "message": "User logged in with IP address: 127.0.0.1"
+}
+{
+    "time": "2025-01-14 17:54:00,339",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:54:28,087",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:54:49,635",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-14 17:54:49,637",
+    "level": "INFO",
+    "message": "Course 's' added with code 'q'"
+}
+{
+    "time": "2025-01-14 17:54:49,643",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 17:57:00,356",
+    "level": "ERROR",
+    "message": "Missing required fields: instructor, semester, schedule, classroom, prerequisites, grading, description"
+}
+{
+    "time": "2025-01-14 17:57:00,359",
+    "level": "INFO",
+    "message": "Course 'a' added with code 'a'"
+}
+{
+    "time": "2025-01-14 17:57:00,365",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
