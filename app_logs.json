@@ -39,7 +39,7 @@
         "level": "INFO",
         "message": "Course catalog page rendered successfully"
     }
-]
+
 {
     "time": "2025-01-14 17:49:07,795",
     "level": "INFO",
@@ -100,3 +100,64 @@
     "level": "INFO",
     "message": "Course catalog page rendered successfully"
 }
+{
+    "time": "2025-01-14 20:56:27,349",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 20:58:11,181",
+    "level": "INFO",
+    "message": "Course 'Course for Courses ' added with code 'ES 11111 '"
+}
+{
+    "time": "2025-01-14 20:58:11,201",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:00:44,400",
+    "level": "INFO",
+    "message": "Course '' added with code 'G 111'"
+}
+{
+    "time": "2025-01-14 21:00:44,400",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:02:48,310",
+    "level": "INFO",
+    "message": "Course '' added with code 'G 111'"
+}
+{
+    "time": "2025-01-14 21:02:48,312",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:02:48,330",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:03:14,874",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+{
+    "time": "2025-01-14 21:04:31,199",
+    "level": "INFO",
+    "message": "Course '' added with code 'G 111'"
+}
+{
+    "time": "2025-01-14 21:04:31,201",
+    "level": "ERROR",
+    "message": "Missing required fields: name"
+}
+{
+    "time": "2025-01-14 21:04:31,224",
+    "level": "INFO",
+    "message": "Course catalog page rendered successfully"
+}
+]

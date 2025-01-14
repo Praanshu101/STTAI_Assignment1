@@ -20,5 +20,27 @@
             "prerequisites": "Basic Python, Linux",
             "grading": "50% Assignment, 50% Quiz",
             "description": ""
+      },
+      {
+            "code": "ES 11111 ",
+            "name": "Course for Courses ",
+            "instructor": "ABCD",
+            "semester": "1",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "None",
+            "grading": "Relative",
+            "description": ""
+      },
+      {
+            "code": "G 111",
+            "name": "",
+            "instructor": "A",
+            "semester": "2",
+            "schedule": "",
+            "classroom": "",
+            "prerequisites": "None",
+            "grading": "",
+            "description": ""
       }
 ]
